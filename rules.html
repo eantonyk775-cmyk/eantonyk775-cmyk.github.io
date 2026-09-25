@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Правила проекта</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+
+    --bg: #121711;
+    --bg-elev: #19201A;
+    --bg-elev-2: #202920;
+    --ink: #F1EEDE;
+    --ink-dim: #A9B39C;
+    --ink-faint: #6E7A67;
+    --accent: #5FE879;
+    --accent-soft: rgba(95, 232, 121, 0.14);
+    --penalty: #FF6E56;
+    --penalty-soft: rgba(255, 110, 86, 0.14);
+    --mob-a: #5FE879;
+    --mob-b: #B98CFF;
+    --mob-c: #FFC24B;
+    --mob-d: #4FD1E8;
+    --line: rgba(241, 238, 222, 0.10);
+    --serif: "Fraunces", Georgia, "Times New Roman", serif;
+    --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      --bg: #F3EEE1;
+      --bg-elev: #EBE4D2;
+      --bg-elev-2: #E3DAC3;
+      --ink: #241F17;
+      --ink-dim: #5C5340;
+      --ink-faint: #8C816B;
+      --accent: #1F9B44;
+      --accent-soft: rgba(31, 155, 68, 0.12);
+      --penalty: #D8452E;
+      --penalty-soft: rgba(216, 69, 46, 0.12);
+      --mob-a: #1F9B44;
+      --mob-b: #7A4FD1;
+      --mob-c: #C97F0A;
+      --mob-d: #0E8FA6;
+      --line: rgba(36, 31, 23, 0.12);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #121711;
+    --bg-elev: #19201A;
+    --bg-elev-2: #202920;
+    --ink: #F1EEDE;
+    --ink-dim: #A9B39C;
+    --ink-faint: #6E7A67;
+    --accent: #5FE879;
+    --accent-soft: rgba(95, 232, 121, 0.14);
+    --penalty: #FF6E56;
+    --penalty-soft: rgba(255, 110, 86, 0.14);
+    --mob-a: #5FE879;
+    --mob-b: #B98CFF;
+    --mob-c: #FFC24B;
+    --mob-d: #4FD1E8;
+    --line: rgba(241, 238, 222, 0.10);
+  }
+
+  * { box-sizing: inherit; }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); scroll-behavior: smooth; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; }
+
+  .shell {
+    max-width: 1180px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 250px minmax(0, 1fr);
+    gap: 56px;
+    padding: 0 28px 96px;
+  }
+
+  /* ---- Hero ---- */
+  .hero {
+    position: relative;
+    grid-column: 1 / -1;
+    padding: 72px 0 44px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 8px;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    top: -140px;
+    right: -80px;
+    width: 420px;
+    height: 420px;
+    background: radial-gradient(circle, var(--accent-soft) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-mob {
+    position: absolute;
+    top: 36px;
+    right: 12px;
+    opacity: 0.9;
+    filter: drop-shadow(0 0 18px var(--accent-soft));
+  }
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: var(--bg);
+    background: var(--accent);
+    border-radius: 999px;
+    padding: 6px 14px;
+    margin: 0 0 18px;
+  }
+  .hero-eyebrow {
+    font-size: 0.92rem;
+    color: var(--ink-dim);
+    margin: 0 0 14px;
+  }
+  .mob-icon {
+    flex: 0 0 auto;
+    filter: drop-shadow(0 0 6px rgba(0,0,0,0.25));
+  }
+  .hero h1 {
+    font-family: var(--serif);
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    line-height: 1.04;
+    margin: 0 0 20px;
+    letter-spacing: -0.01em;
+    max-width: 14ch;
+  }
+  .hero p {
+    max-width: 62ch;
+    color: var(--ink-dim);
+    font-size: 1.08rem;
+    margin: 0;
+  }
+
+  /* ---- Sidebar ---- */
+  .nav-wrap { position: relative; }
+  .nav {
+    position: sticky;
+    top: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding-top: 40px;
+  }
+  .nav a {
+    text-decoration: none;
+    color: var(--ink-dim);
+    font-size: 0.96rem;
+    padding: 9px 12px;
+    border-radius: 6px;
+    border-left: 2px solid transparent;
+    transition: color .15s ease, border-color .15s ease, background .15s ease;
+  }
+  .nav a:hover { color: var(--ink); background: var(--bg-elev); }
+  .nav a.active {
+    color: var(--ink);
+    border-left-color: var(--accent);
+    background: var(--accent-soft);
+    font-weight: 500;
+  }
+  .nav-foot {
+    margin-top: 28px;
+    padding: 14px 12px 0;
+    border-top: 1px solid var(--line);
+    font-size: 0.82rem;
+    color: var(--ink-faint);
+  }
+
+  /* ---- Main content ---- */
+  main { min-width: 0; padding-top: 40px; }
+
+  section.chapter { margin-bottom: 64px; scroll-margin-top: 24px; }
+  section.chapter:last-of-type { margin-bottom: 40px; }
+
+  .chapter-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 6px;
+  }
+  .chapter-num {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 1.15rem;
+    color: var(--accent);
+  }
+  .chapter-head h2 {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 1.7rem;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+  .chapter-note {
+    color: var(--ink-faint);
+    font-size: 0.94rem;
+    margin: 6px 0 28px;
+    max-width: 68ch;
+  }
+
+  .rule {
+    display: grid;
+    grid-template-columns: 56px minmax(0, 1fr);
+    gap: 18px;
+    padding: 22px 0;
+    border-top: 1px solid var(--line);
+    scroll-margin-top: 24px;
+  }
+  .rule:last-child { border-bottom: 1px solid var(--line); }
+
+  .rule-num {
+    font-family: var(--serif);
+    font-size: 1rem;
+    color: var(--ink-faint);
+    padding-top: 2px;
+  }
+  .rule-body h3 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin: 0 0 8px;
+  }
+  .rule-body p {
+    margin: 0 0 10px;
+    color: var(--ink-dim);
+    max-width: 70ch;
+  }
+  .rule-body ul {
+    margin: 0 0 12px;
+    padding-left: 20px;
+    color: var(--ink-dim);
+  }
+  .rule-body li { margin-bottom: 4px; }
+
+  .penalty {
+    display: inline-block;
+    font-size: 0.86rem;
+    color: var(--penalty);
+    background: var(--penalty-soft);
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin-top: 2px;
+  }
+
+  footer.note-block {
+    border-top: 1px solid var(--line);
+    padding-top: 32px;
+    color: var(--ink-dim);
+    font-size: 0.95rem;
+  }
+  footer.note-block h2 {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 1.4rem;
+    margin: 0 0 18px;
+    color: var(--ink);
+  }
+  footer.note-block ul { padding-left: 20px; margin: 0; }
+  footer.note-block li { margin-bottom: 10px; max-width: 70ch; }
+
+  /* ---- Mobile ---- */
+  .mobile-nav { display: none; }
+
+  @media (max-width: 860px) {
+    .shell { grid-template-columns: 1fr; gap: 0; padding: 0 20px 72px; }
+    .hero { padding: 48px 0 28px; }
+    .nav-wrap { display: none; }
+    .hero-mob { transform: scale(0.6); top: 8px; right: -10px; opacity: 0.55; }
+    .mobile-nav {
+      display: block;
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      background: var(--bg);
+      border-bottom: 1px solid var(--line);
+      padding: 12px 0;
+      margin: 0 -20px 12px;
+    }
+    .mobile-nav-scroll {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 0 20px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .mobile-nav a {
+      flex: 0 0 auto;
+      text-decoration: none;
+      color: var(--ink-dim);
+      background: var(--bg-elev);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 7px 14px;
+      font-size: 0.86rem;
+      white-space: nowrap;
+    }
+    main { padding-top: 8px; }
+    .rule { grid-template-columns: 40px minmax(0,1fr); }
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+  <div class="hero">
+    <svg class="hero-mob" viewBox="0 0 80 64" width="80" height="64" aria-hidden="true" shape-rendering="crispEdges"><rect x="16" y="0" width="8" height="8" fill="var(--accent)"/><rect x="24" y="0" width="8" height="8" fill="var(--accent)"/><rect x="32" y="0" width="8" height="8" fill="var(--accent)"/><rect x="40" y="0" width="8" height="8" fill="var(--accent)"/><rect x="48" y="0" width="8" height="8" fill="var(--accent)"/><rect x="56" y="0" width="8" height="8" fill="var(--accent)"/><rect x="8" y="8" width="8" height="8" fill="var(--accent)"/><rect x="16" y="8" width="8" height="8" fill="var(--accent)"/><rect x="24" y="8" width="8" height="8" fill="var(--accent)"/><rect x="32" y="8" width="8" height="8" fill="var(--accent)"/><rect x="40" y="8" width="8" height="8" fill="var(--accent)"/><rect x="48" y="8" width="8" height="8" fill="var(--accent)"/><rect x="56" y="8" width="8" height="8" fill="var(--accent)"/><rect x="64" y="8" width="8" height="8" fill="var(--accent)"/><rect x="0" y="16" width="8" height="8" fill="var(--accent)"/><rect x="8" y="16" width="8" height="8" fill="var(--accent)"/><rect x="24" y="16" width="8" height="8" fill="var(--accent)"/><rect x="32" y="16" width="8" height="8" fill="var(--accent)"/><rect x="40" y="16" width="8" height="8" fill="var(--accent)"/><rect x="48" y="16" width="8" height="8" fill="var(--accent)"/><rect x="64" y="16" width="8" height="8" fill="var(--accent)"/><rect x="72" y="16" width="8" height="8" fill="var(--accent)"/><rect x="0" y="24" width="8" height="8" fill="var(--accent)"/><rect x="8" y="24" width="8" height="8" fill="var(--accent)"/><rect x="16" y="24" width="8" height="8" fill="var(--accent)"/><rect x="24" y="24" width="8" height="8" fill="var(--accent)"/><rect x="32" y="24" width="8" height="8" fill="var(--accent)"/><rect x="40" y="24" width="8" height="8" fill="var(--accent)"/><rect x="48" y="24" width="8" height="8" fill="var(--accent)"/><rect x="56" y="24" width="8" height="8" fill="var(--accent)"/><rect x="64" y="24" width="8" height="8" fill="var(--accent)"/><rect x="72" y="24" width="8" height="8" fill="var(--accent)"/><rect x="0" y="32" width="8" height="8" fill="var(--accent)"/><rect x="8" y="32" width="8" height="8" fill="var(--accent)"/><rect x="16" y="32" width="8" height="8" fill="var(--accent)"/><rect x="24" y="32" width="8" height="8" fill="var(--accent)"/><rect x="32" y="32" width="8" height="8" fill="var(--accent)"/><rect x="40" y="32" width="8" height="8" fill="var(--accent)"/><rect x="48" y="32" width="8" height="8" fill="var(--accent)"/><rect x="56" y="32" width="8" height="8" fill="var(--accent)"/><rect x="64" y="32" width="8" height="8" fill="var(--accent)"/><rect x="72" y="32" width="8" height="8" fill="var(--accent)"/><rect x="0" y="40" width="8" height="8" fill="var(--accent)"/><rect x="8" y="40" width="8" height="8" fill="var(--accent)"/><rect x="16" y="40" width="8" height="8" fill="var(--accent)"/><rect x="24" y="40" width="8" height="8" fill="var(--accent)"/><rect x="32" y="40" width="8" height="8" fill="var(--accent)"/><rect x="40" y="40" width="8" height="8" fill="var(--accent)"/><rect x="48" y="40" width="8" height="8" fill="var(--accent)"/><rect x="56" y="40" width="8" height="8" fill="var(--accent)"/><rect x="64" y="40" width="8" height="8" fill="var(--accent)"/><rect x="72" y="40" width="8" height="8" fill="var(--accent)"/><rect x="0" y="48" width="8" height="8" fill="var(--accent)"/><rect x="16" y="48" width="8" height="8" fill="var(--accent)"/><rect x="32" y="48" width="8" height="8" fill="var(--accent)"/><rect x="40" y="48" width="8" height="8" fill="var(--accent)"/><rect x="56" y="48" width="8" height="8" fill="var(--accent)"/><rect x="72" y="48" width="8" height="8" fill="var(--accent)"/><rect x="8" y="56" width="8" height="8" fill="var(--accent)"/><rect x="24" y="56" width="8" height="8" fill="var(--accent)"/><rect x="48" y="56" width="8" height="8" fill="var(--accent)"/><rect x="64" y="56" width="8" height="8" fill="var(--accent)"/></svg>
+    <span class="hero-tag">Гейм-сектор · МТУСИ</span>
+    <p class="hero-eyebrow">Свод правил</p>
+    <h1>Правила проекта</h1>
+    <p>Начав играть, вы автоматически соглашаетесь с правилами ниже — незнание не освобождает от ответственности. За свой аккаунт всегда отвечает его владелец, а правила могут меняться без отдельного оповещения.</p>
+  </div>
+
+  <div class="mobile-nav">
+    <div class="mobile-nav-scroll">
+      <a href="#ch1">Общие</a>
+      <a href="#ch2">Общение</a>
+      <a href="#ch3">Механики</a>
+      <a href="#ch4">Выживание</a>
+      <a href="#ch5">Доп. информация</a>
+    </div>
+  </div>
+
+  <div class="nav-wrap">
+    <nav class="nav" id="sidenav">
+      <a href="#ch1">1. Общие правила</a>
+      <a href="#ch2">2. Правила общения</a>
+      <a href="#ch3">3. Игровые механики</a>
+      <a href="#ch4">4. Правила для Выживания</a>
+      <a href="#ch5">Дополнительная информация</a>
+      <div class="nav-foot">Правовые акты проекта являются главенствующими.</div>
+    </nav>
+  </div>
+
+  <main>
+
+    <section class="chapter" id="ch1">
+      <div class="chapter-head"><svg class="mob-icon" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" shape-rendering="crispEdges"><rect x="4" y="0" width="4" height="4" fill="var(--mob-a)"/><rect x="8" y="0" width="4" height="4" fill="var(--mob-a)"/><rect x="12" y="0" width="4" height="4" fill="var(--mob-a)"/><rect x="16" y="0" width="4" height="4" fill="var(--mob-a)"/><rect x="0" y="4" width="4" height="4" fill="var(--mob-a)"/><rect x="4" y="4" width="4" height="4" fill="var(--mob-a)"/><rect x="8" y="4" width="4" height="4" fill="var(--mob-a)"/><rect x="12" y="4" width="4" height="4" fill="var(--mob-a)"/><rect x="16" y="4" width="4" height="4" fill="var(--mob-a)"/><rect x="20" y="4" width="4" height="4" fill="var(--mob-a)"/><rect x="0" y="8" width="4" height="4" fill="var(--mob-a)"/><rect x="8" y="8" width="4" height="4" fill="var(--mob-a)"/><rect x="12" y="8" width="4" height="4" fill="var(--mob-a)"/><rect x="20" y="8" width="4" height="4" fill="var(--mob-a)"/><rect x="0" y="12" width="4" height="4" fill="var(--mob-a)"/><rect x="4" y="12" width="4" height="4" fill="var(--mob-a)"/><rect x="8" y="12" width="4" height="4" fill="var(--mob-a)"/><rect x="12" y="12" width="4" height="4" fill="var(--mob-a)"/><rect x="16" y="12" width="4" height="4" fill="var(--mob-a)"/><rect x="20" y="12" width="4" height="4" fill="var(--mob-a)"/><rect x="4" y="16" width="4" height="4" fill="var(--mob-a)"/><rect x="8" y="16" width="4" height="4" fill="var(--mob-a)"/><rect x="12" y="16" width="4" height="4" fill="var(--mob-a)"/><rect x="16" y="16" width="4" height="4" fill="var(--mob-a)"/><rect x="8" y="20" width="4" height="4" fill="var(--mob-a)"/><rect x="12" y="20" width="4" height="4" fill="var(--mob-a)"/></svg><span class="chapter-num">1</span><h2>Общие правила</h2></div>
+
+      <div class="rule" id="r1-1">
+        <div class="rule-num">1.1</div>
+        <div class="rule-body">
+          <h3>Передача аккаунта</h3>
+          <p>Разглашение пароля от аккаунта, доступа к нему или совместная игра на нём. Наказуемо даже в виде объявления о продаже или в шуточной форме.</p>
+          <span class="penalty">Бан навсегда и полное снятие</span>
+        </div>
+      </div>
+
+      <div class="rule" id="r1-2">
+        <div class="rule-num">1.2</div>
+        <div class="rule-body">
+          <h3>Торговля</h3>
+          <p>Игровой процесс и торговля между игроками разрешены.</p>
+          <span class="penalty">Без наказания</span>
+        </div>
+      </div>
+
+      <div class="rule" id="r1-3">
+        <div class="rule-num">1.3</div>
+        <div class="rule-body">
+          <h3>Вред проекту</h3>
+          <p>Нанесение проекту тяжкого финансового или технического вреда: краш проекта, лаг-машины, DDOS/бот-атаки, намеренное засорение мира, полная застройка чужих приватов, злоупотребление багами, разглашение критических багов.</p>
+          <ul>
+            <li>Умышленный вред: бан по IP навсегда и полное снятие (выдаёт только официальная команда проекта, в т.ч. за содействие)</li>
+            <li>Без умысла: бан навсегда по IP</li>
+          </ul>
+          <span class="penalty">Зависит от умысла</span>
+        </div>
+      </div>
+
+      <div class="rule" id="r1-4">
+        <div class="rule-num">1.4</div>
+        <div class="rule-body">
+          <h3>Недопустимые ники</h3>
+          <p>Регистрация ников, оскорбляющих по религии, мировоззрению, нации и т.д.; содержащих острые политические темы или деятелей (названия стран не наказуемы); выдающих игрока за команду проекта или подражающих ей; содержащих названия читов или других проектов.</p>
+          <span class="penalty">Бан навсегда</span>
+        </div>
+      </div>
+
+      <div class="rule" id="r1-5">
+        <div class="rule-num">1.5</div>
+        <div class="rule-body">
+          <h3>Притворство командой проекта</h3>
+          <p>Выдача себя за члена официальной команды проекта. Наказуем также вызов на проверку и требование доказательств.</p>
+          <span class="penalty">Бан по IP на 3 дня</span>
+        </div>
+      </div>
+
+      <div class="rule" id="r1-6">
+        <div class="rule-num">1.6</div>
+        <div class="rule-body">
+          <h3>Махинации</h3>
+          <p>Взлом аккаунтов, попытки выманить пароль или код привязки, обман администрации в корыстных целях, подделка доказательств или чеков, деанонимизация игроков или команды проекта.</p>
+          <span class="penalty">Бан по IP навсегда и полное снятие</span>
+        </div>
+      </div>
+
+      <div class="rule" id="r1-7">
+        <div class="rule-num">1.7</div>
+        <div class="rule-body">
+          <h3>Вред официальной команде проекта</h3>
+          <p>Необоснованная критика её действий, угрозы, помеха работе, отправка бессмысленных или ложных репортов.</p>
+          <span class="penalty">Бан на 1 день</span>
+        </div>
+      </div>
+
+      <div class="rule" id="r1-8">
+        <div class="rule-num">1.8</div>
+        <div class="rule-body">
+          <h3>Обход наказаний с продолжением</h3>
+          <p>Обход корректно полученного наказания через другой аккаунт и продолжение нарушений.</p>
+          <ul>
+            <li>При обходе по IP: бан по IP навсегда всех аккаунтов</li>
+            <li>При обходе не по IP: бан по IP на 3 дня</li>
+          </ul>
+          <span class="penalty">Бан по IP</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="chapter" id="ch2">
+      <div class="chapter-head"><svg class="mob-icon" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" shape-rendering="crispEdges"><rect x="8" y="0" width="4" height="4" fill="var(--mob-b)"/><rect x="12" y="0" width="4" height="4" fill="var(--mob-b)"/><rect x="4" y="4" width="4" height="4" fill="var(--mob-b)"/><rect x="8" y="4" width="4" height="4" fill="var(--mob-b)"/><rect x="12" y="4" width="4" height="4" fill="var(--mob-b)"/><rect x="16" y="4" width="4" height="4" fill="var(--mob-b)"/><rect x="0" y="8" width="4" height="4" fill="var(--mob-b)"/><rect x="4" y="8" width="4" height="4" fill="var(--mob-b)"/><rect x="16" y="8" width="4" height="4" fill="var(--mob-b)"/><rect x="20" y="8" width="4" height="4" fill="var(--mob-b)"/><rect x="0" y="12" width="4" height="4" fill="var(--mob-b)"/><rect x="4" y="12" width="4" height="4" fill="var(--mob-b)"/><rect x="8" y="12" width="4" height="4" fill="var(--mob-b)"/><rect x="12" y="12" width="4" height="4" fill="var(--mob-b)"/><rect x="16" y="12" width="4" height="4" fill="var(--mob-b)"/><rect x="20" y="12" width="4" height="4" fill="var(--mob-b)"/><rect x="4" y="16" width="4" height="4" fill="var(--mob-b)"/><rect x="8" y="16" width="4" height="4" fill="var(--mob-b)"/><rect x="12" y="16" width="4" height="4" fill="var(--mob-b)"/><rect x="16" y="16" width="4" height="4" fill="var(--mob-b)"/><rect x="8" y="20" width="4" height="4" fill="var(--mob-b)"/><rect x="12" y="20" width="4" height="4" fill="var(--mob-b)"/></svg><span class="chapter-num">2</span><h2>Правила общения</h2></div>
+      <p class="chapter-note">За нарушения пунктов 2.2–2.4 в /pc, /bc, /opchat и книгах вместо мута выдаётся бан на тот же срок. Пункты 2.2–2.5 в /co lookup наказуемы только по желанию участника ситуации.</p>
+
+      <div class="rule" id="r2-1">
+        <div class="rule-num">2.1</div>
+        <div class="rule-body">
+          <h3>Реклама</h3>
+          <p>Реклама сторонних ресурсов — серверов, сайтов, читов, услуг, не относящихся к нашему проекту, включая общедоступные миры, — а также любых каналов, стримов и видео.</p>
+          <span class="penalty">Бан по IP навсегда (при рекламе сервера — со снятием)</span>
+        </div>
+      </div>
+
+      <div class="rule" id="r2-2">
+        <div class="rule-num">2.2</div>
+        <div class="rule-body">
+          <h3>Засорение чата</h3>
+          <p>Написание четырёх слов в минуту КАПСом; повторение трёх сообщений с одинаковым смыслом или без него с промежутком меньше минуты; попрошайничество чего-либо, кроме ресурсов и монет; использование цвета «&k»; реклама профилей (VK и т.п.) на других площадках (контакты для связи не наказуемы); упоминание сторонних проектов.</p>
+          <span class="penalty">Мут на 30 минут</span>
+        </div>
+      </div>
+
+      <div class="rule" id="r2-3">
+        <div class="rule-num">2.3</div>
+        <div class="rule-body">
+          <h3>Оскорбительное поведение</h3>
+          <p>Прямые или сокращённые оскорбления, токсичность на почве религии, мировоззрения, нации и т.д., угрозы деанонимизации, токсичность или оскорбления с упоминанием родни в любом виде.</p>
+          <ul>
+            <li>В сторону игрока: мут на 3 часа</li>
+            <li>С упоминанием родни или религии: мут на 1 день</li>
+            <li>Угрозы деанонимизации: мут по IP на 7 дней (с 15-го раза — мут по IP навсегда)</li>
+          </ul>
+          <span class="penalty">Мут / Мут по IP</span>
+        </div>
+      </div>
+
+      <div class="rule" id="r2-4">
+        <div class="rule-num">2.4</div>
+        <div class="rule-body">
+          <h3>Политические дискуссии</h3>
+          <p>Любые сообщения, задевающие острые политические темы и способные вызвать конфликт.</p>
+          <span class="penalty">Мут на 6 часов</span>
+        </div>
+      </div>
+
+      <div class="rule" id="r2-5">
+        <div class="rule-num">2.5</div>
+        <div class="rule-body">
+          <h3>Спам командами</h3>
+          <p>Ввод схожих команд, видных другому игроку (/pay, /time, /marry и т.д.), с промежутком менее минуты. Флуд командами, видными только в /console, не наказуем.</p>
+          <span class="penalty">Бан на 10 минут</span>
+        </div>
+      </div>
+
+      <div class="rule" id="r2-6">
+        <div class="rule-num">2.6</div>
+        <div class="rule-body">
+          <h3>Оскорбление проекта или его официальной команды</h3>
+          <p>Оскорбления в сторону проекта или официальной команды, а также токсичность из пункта 2.3 в сторону команды.</p>
+          <span class="penalty">Бан по IP на 3 дня (в сторону команды) / навсегда (в сторону проекта)</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="chapter" id="ch3">
+      <div class="chapter-head"><svg class="mob-icon" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" shape-rendering="crispEdges"><rect x="0" y="0" width="4" height="4" fill="var(--mob-c)"/><rect x="4" y="0" width="4" height="4" fill="var(--mob-c)"/><rect x="16" y="0" width="4" height="4" fill="var(--mob-c)"/><rect x="20" y="0" width="4" height="4" fill="var(--mob-c)"/><rect x="0" y="4" width="4" height="4" fill="var(--mob-c)"/><rect x="4" y="4" width="4" height="4" fill="var(--mob-c)"/><rect x="8" y="4" width="4" height="4" fill="var(--mob-c)"/><rect x="12" y="4" width="4" height="4" fill="var(--mob-c)"/><rect x="16" y="4" width="4" height="4" fill="var(--mob-c)"/><rect x="20" y="4" width="4" height="4" fill="var(--mob-c)"/><rect x="0" y="8" width="4" height="4" fill="var(--mob-c)"/><rect x="8" y="8" width="4" height="4" fill="var(--mob-c)"/><rect x="12" y="8" width="4" height="4" fill="var(--mob-c)"/><rect x="20" y="8" width="4" height="4" fill="var(--mob-c)"/><rect x="0" y="12" width="4" height="4" fill="var(--mob-c)"/><rect x="4" y="12" width="4" height="4" fill="var(--mob-c)"/><rect x="8" y="12" width="4" height="4" fill="var(--mob-c)"/><rect x="12" y="12" width="4" height="4" fill="var(--mob-c)"/><rect x="16" y="12" width="4" height="4" fill="var(--mob-c)"/><rect x="20" y="12" width="4" height="4" fill="var(--mob-c)"/><rect x="4" y="16" width="4" height="4" fill="var(--mob-c)"/><rect x="16" y="16" width="4" height="4" fill="var(--mob-c)"/><rect x="0" y="20" width="4" height="4" fill="var(--mob-c)"/><rect x="8" y="20" width="4" height="4" fill="var(--mob-c)"/><rect x="12" y="20" width="4" height="4" fill="var(--mob-c)"/><rect x="20" y="20" width="4" height="4" fill="var(--mob-c)"/></svg><span class="chapter-num">3</span><h2>Игровые механики</h2></div>
+
+      <div class="rule" id="r3-1">
+        <div class="rule-num">3.1</div>
+        <div class="rule-body">
+          <h3>Читерство</h3>
+          <p>Использование читов и хранение чит-предметов. Наказуемы уход от проверки модерации или администрации, помеха проверке, очистка важных данных при вызове. Запрещено отключение системных служб и очистка журналов.</p>
+          <span class="penalty">Бан по IP навсегда (при повторе — с полным снятием)</span>
+        </div>
+      </div>
+
+      <div class="rule" id="r3-2">
+        <div class="rule-num">3.2</div>
+        <div class="rule-body">
+          <h3>Недопустимые постройки</h3>
+          <p>Создание построек, оскорбляющих по религии, мировоззрению, нации; содержащих острые политические темы (фашистская и военная символика запрещена); непристойных; содержащих другие сервера или читы; делающих перемещение игрока невозможным.</p>
+          <span class="penalty">Бан на 6 часов + удаление последствий</span>
+        </div>
+      </div>
+
+      <div class="rule" id="r3-3">
+        <div class="rule-num">3.3</div>
+        <div class="rule-body">
+          <h3>Недопустимая кастомизация</h3>
+          <p>Скины, плащи, префиксы, сообщения о входе, кастомные ники, названия кланов, предметы с прозрачными пикселями на первом слое скина, шок-контентом, символами справа налево, «&k», а также оскорблениями, политикой, выдачей себя за команду или владельца чужой привилегии.</p>
+          <span class="penalty">Бан на 6 часов</span>
+        </div>
+      </div>
+
+      <div class="rule" id="r3-4">
+        <div class="rule-num">3.4</div>
+        <div class="rule-body">
+          <h3>Некорректные наказания</h3>
+          <p>Выдача наказаний по неадекватной причине (содержащей оскорбления, родню, бред, шутки), не по правилам, не по режиму или без доказательств. Скриншоты и видео нужно хранить 14 дней.</p>
+          <span class="penalty">Бан на 6 часов (себя) / 1–3 дня (другого)</span>
+        </div>
+      </div>
+
+      <div class="rule" id="r3-5">
+        <div class="rule-num">3.5</div>
+        <div class="rule-body">
+          <h3>Некорректные снятия наказаний</h3>
+          <p>Снятие корректного наказания с нарушителя либо указание неподходящей причины.</p>
+          <span class="penalty">Бан на 1 день</span>
+        </div>
+      </div>
+
+      <div class="rule" id="r3-6">
+        <div class="rule-num">3.6</div>
+        <div class="rule-body">
+          <h3>Фарм статистики</h3>
+          <p>Накрутка статистики: многократное убийство игрока на респавне, мультиаккаунты.</p>
+          <span class="penalty">Бан на 12 часов (небольшая) / 3 дня и сброс статистики (большая)</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="chapter" id="ch4">
+      <div class="chapter-head"><svg class="mob-icon" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" shape-rendering="crispEdges"><rect x="0" y="0" width="4" height="4" fill="var(--mob-d)"/><rect x="20" y="0" width="4" height="4" fill="var(--mob-d)"/><rect x="0" y="4" width="4" height="4" fill="var(--mob-d)"/><rect x="4" y="4" width="4" height="4" fill="var(--mob-d)"/><rect x="8" y="4" width="4" height="4" fill="var(--mob-d)"/><rect x="12" y="4" width="4" height="4" fill="var(--mob-d)"/><rect x="16" y="4" width="4" height="4" fill="var(--mob-d)"/><rect x="20" y="4" width="4" height="4" fill="var(--mob-d)"/><rect x="0" y="8" width="4" height="4" fill="var(--mob-d)"/><rect x="4" y="8" width="4" height="4" fill="var(--mob-d)"/><rect x="8" y="8" width="4" height="4" fill="var(--mob-d)"/><rect x="12" y="8" width="4" height="4" fill="var(--mob-d)"/><rect x="16" y="8" width="4" height="4" fill="var(--mob-d)"/><rect x="20" y="8" width="4" height="4" fill="var(--mob-d)"/><rect x="0" y="12" width="4" height="4" fill="var(--mob-d)"/><rect x="8" y="12" width="4" height="4" fill="var(--mob-d)"/><rect x="12" y="12" width="4" height="4" fill="var(--mob-d)"/><rect x="20" y="12" width="4" height="4" fill="var(--mob-d)"/><rect x="0" y="16" width="4" height="4" fill="var(--mob-d)"/><rect x="4" y="16" width="4" height="4" fill="var(--mob-d)"/><rect x="8" y="16" width="4" height="4" fill="var(--mob-d)"/><rect x="12" y="16" width="4" height="4" fill="var(--mob-d)"/><rect x="16" y="16" width="4" height="4" fill="var(--mob-d)"/><rect x="20" y="16" width="4" height="4" fill="var(--mob-d)"/><rect x="4" y="20" width="4" height="4" fill="var(--mob-d)"/><rect x="8" y="20" width="4" height="4" fill="var(--mob-d)"/><rect x="12" y="20" width="4" height="4" fill="var(--mob-d)"/><rect x="16" y="20" width="4" height="4" fill="var(--mob-d)"/></svg><span class="chapter-num">4</span><h2>Правила для Выживания</h2></div>
+      <p class="chapter-note">Наказания по этому разделу выдаются только локально на режиме Выживания.</p>
+
+      <div class="rule" id="r4-1">
+        <div class="rule-num">4.1</div>
+        <div class="rule-body">
+          <h3>Гриферство</h3>
+          <p>Введение игрока в заблуждение ради личной выгоды или вреда: зазыв в ловушку, обман с целью навредить региону или при торговле.</p>
+          <span class="penalty">Бан на 3 дня (выдаёт только официальная команда)</span>
+        </div>
+      </div>
+
+      <div class="rule" id="r4-2">
+        <div class="rule-num">4.2</div>
+        <div class="rule-body">
+          <h3>Помеха игрокам</h3>
+          <p>Отказ покидать чужой регион по просьбе участника дольше минуты; нахождение на аренах спавна в /fly, /god, /gm 1; злоупотребление /kb, /gm 0, /tp; массовое использование взрывных или осадочных зелий и фейерверков.</p>
+          <span class="penalty">Предупреждение (/warn), при повторе — бан на 3 часа</span>
+        </div>
+      </div>
+
+      <div class="rule" id="r4-3">
+        <div class="rule-num">4.3</div>
+        <div class="rule-body">
+          <h3>Недопустимые изменения спавна</h3>
+          <p>Затрагивание первозданных структур спавна, изменения в пустой зоне за стенами, под спавном или на PvP-арене, создание существенной помехи, обилие проигрывателей, троп, стоек для брони, хранилищ, голов или табличек (более 3) рядом друг с другом, сильное закрытие неба.</p>
+          <span class="penalty">Бан на 7 дней (изменение) / навсегда и полное снятие (умышленная порча)</span>
+        </div>
+      </div>
+
+      <div class="rule" id="r4-4">
+        <div class="rule-num">4.4</div>
+        <div class="rule-body">
+          <h3>Злоупотребление правами доната</h3>
+          <p>Использование возможностей привилегии для попыток убийства игроков, преимущества в PvP, изменения чужого региона или инвентаря без согласия, удаления чужих /warp-ов.</p>
+          <span class="penalty">Бан на 1–3 дня (при 5+ нарушениях — навсегда и снятие)</span>
+        </div>
+      </div>
+
+      <div class="rule" id="r4-5">
+        <div class="rule-num">4.5</div>
+        <div class="rule-body">
+          <h3>Телепортация без разрешения</h3>
+          <p>Использование команд /tphere, /tpohere, /spawn [Ник] против воли игрока (исключение — телепортация на спавн нарушителей пункта 4.2).</p>
+          <span class="penalty">Бан на 2 часа</span>
+        </div>
+      </div>
+    </section>
+
+    <footer class="note-block" id="ch5">
+      <h2>Дополнительная информация</h2>
+      <ul>
+        <li>Правовые акты проекта являются главенствующими. Начав играть, игрок автоматически соглашается с ними — незнание не освобождает от ответственности. За аккаунт всегда отвечает его владелец.</li>
+        <li>Правила могут изменяться без оповещения.</li>
+        <li>Игрок имеет право выдавать глобальное наказание (с модификатором -g в конце) за нарушение разделов 1–3.</li>
+        <li>За рецидив наказания могут ужесточаться. Администрация оставляет за собой право наказать игрока по не прописанной в правилах причине в случае чрезвычайной грубости нарушения или внештатной ситуации.</li>
+      </ul>
+    </footer>
+
+  </main>
+</div>
+
+<script>
+  const links = document.querySelectorAll('#sidenav a');
+  const chapters = document.querySelectorAll('section.chapter, footer.note-block');
+  if ('IntersectionObserver' in window) {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          links.forEach(l => l.classList.remove('active'));
+          const match = document.querySelector('#sidenav a[href="#' + e.target.id + '"]');
+          if (match) match.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-15% 0px -70% 0px' });
+    chapters.forEach(c => obs.observe(c));
+  }
+</script>
+
+</body>
+</html>
